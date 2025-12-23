@@ -66,6 +66,10 @@ services:
     environment:
       - NGINX_WORKER_PROCESSES=auto
 
+networks:
+  default:
+    driver: bridge
+
 volumes:
   webroot:
   certbot-etc:
