@@ -13,6 +13,9 @@ ENV NODE_ENV=${NODE_ENV}
 COPY package.json package-lock.json* ./
 RUN npm ci
 
+# Install Tailwind CSS dependencies if needed
+RUN npm install @tailwindcss/postcss || true
+
 # Copy source
 COPY . .
 
