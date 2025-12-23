@@ -5,10 +5,6 @@ WORKDIR /app
 # Alpine compatibility for Node/Next
 RUN apk add --no-cache libc6-compat
 
-# Build-time env - IMPORTANT: We need devDependencies for build
-ARG NODE_ENV=development
-ENV NODE_ENV=${NODE_ENV}
-
 # Install ALL dependencies (including devDependencies) for build
 COPY package.json package-lock.json* ./
 RUN npm ci
@@ -19,8 +15,8 @@ COPY . .
 # Make env vars available to Next.js build
 COPY .env.prod .env.production
 
-# Build Next.js
-RUN npm run build
+# Build Next.js - explicitly set NODE_ENV=production to avoid warning
+RUN NODE_ENV=production npm run build
 
 # --- Runtime stage ---
 FROM node:20-alpine AS runner
@@ -36,7 +32,6 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-# Remove the package.json copy and npm ci line - standalone doesn't need them
 
 # Switch to non-root user
 USER nextjs
