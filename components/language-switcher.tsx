@@ -46,10 +46,8 @@ const LanguageSwitcher = () => {
     if (languageValue) {
       // 4. Set the current language if we have a related decision.
       setCurrentLanguage(languageValue);
-    } else {
-      // Fallback to default if no language determined
-      setCurrentLanguage("en");
     }
+
     // 5. Set the language config.
     if (globalThis.__GOOGLE_TRANSLATION_CONFIG__) {
       setLanguageConfig(globalThis.__GOOGLE_TRANSLATION_CONFIG__);
