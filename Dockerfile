@@ -1,26 +1,20 @@
-# Use the official Node.js 20 Alpine image
-FROM node:20-alpine
-
-# Set the working directory
+# --- Build stage ---
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+COPY package.json package-lock.json* ./
+RUN npm ci
 
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy environment file for build (rename .env.prod to .env.local for Next.js)
-COPY .env.prod .env.local
-
-# Copy the rest of the application code
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Expose the port the app runs on
-EXPOSE 3000
+# --- Runtime stage ---
+FROM node:20-alpine
+WORKDIR /app
 
-# Start the application
+ENV NODE_ENV=production
+
+COPY --from=builder /app ./
+
+EXPOSE 3000
 CMD ["npm", "start"]
