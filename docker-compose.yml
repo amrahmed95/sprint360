@@ -22,6 +22,15 @@ services:
         reservations:
           memory: 512M
 
+  # TEMPORARY HTTP-ONLY NGINX (for Certbot) - runs FIRST, then stops
+  nginx-temp:
+    image: nginx:alpine
+    ports:
+      - "80:80"  # ONLY port 80 for Certbot validation
+    volumes:
+      - webroot:/usr/share/nginx/html
+      - ./nginx-temp.conf:/etc/nginx/nginx.conf:ro
+    restart: "no"  # Important: don't restart, we'll stop it after certbot
 
   # CERTBOT - gets certificates using nginx-temp
   certbot:
@@ -34,6 +43,7 @@ services:
       - nginx-temp
     command: certonly --webroot --webroot-path=/var/www/html --email sprint360hq@gmail.com --agree-tos --no-eff-email --non-interactive --keep-until-expiring -d sprint360.co -d www.sprint360.co
 
+  # PRODUCTION NGINX (with SSL) - runs AFTER certbot and replaces nginx-temp
   nginx:
     image: nginx:alpine
     ports:
