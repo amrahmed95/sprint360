@@ -16,7 +16,7 @@ RUN npm ci
 # Copy source
 COPY . .
 
-# 👇 Make env vars available to Next.js build
+# Make env vars available to Next.js build
 COPY .env.prod .env.production
 
 # Build Next.js
