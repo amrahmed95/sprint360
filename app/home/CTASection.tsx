@@ -46,7 +46,7 @@ export default function CTASection() {
                 Book a Meeting
               </Button>
             </a>
-            <a href="mailto:sprint360@gmail.com" className="flex-1">
+            <a href="mailto:sprint360hq@gmail.com" className="flex-1">
               <Button className="w-full shadow-[0_0_10px_var(--color-accent)] hover:scale-105 transition-transform">
                 Send an Email
               </Button>
