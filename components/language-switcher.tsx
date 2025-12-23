@@ -46,16 +46,29 @@ const LanguageSwitcher = () => {
     if (languageValue) {
       // 4. Set the current language if we have a related decision.
       setCurrentLanguage(languageValue);
+    } else {
+      // Fallback to default if no language determined
+      setCurrentLanguage("en");
     }
     // 5. Set the language config.
     if (globalThis.__GOOGLE_TRANSLATION_CONFIG__) {
       setLanguageConfig(globalThis.__GOOGLE_TRANSLATION_CONFIG__);
+    } else {
+      // Fallback config
+      setLanguageConfig({
+        languages: [{ title: "English", name: "en" }],
+        defaultLanguage: "en",
+      });
     }
   }, []);
 
   // Don't display anything if current language information is unavailable.
   if (!currentLanguage || !languageConfig) {
-    return null;
+    return (
+      <select className="notranslate bg-transparent text-[--color-foreground] border border-[--color-muted] rounded px-2 py-1 text-sm">
+        <option value="en">English</option>
+      </select>
+    );
   }
 
   // The following function switches the current language
