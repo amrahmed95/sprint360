@@ -1,26 +1,240 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   GLOBAL THEME — Sprint 360 Website (Dark/Tech)
+────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b1220;
+  --foreground: #d8e2f1;
+
+  --accent: #1e90ff;
+  --accent-hover: #3aa0ff;
+  --muted: #8b9bb5;
+  --card: #111827;
+  --card-border: #1e293b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: 'Poppins', var(--font-sans);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b1220;
+    --foreground: #e2e8f0;
+    --card: #111827;
   }
 }
 
+/* ─────────────────────────────────────────────
+   BASE ELEMENTS
+────────────────────────────────────────────── */
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+/* Links & buttons */
+a,
+button {
+  color: var(--accent);
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+a:hover,
+button:hover {
+  color: var(--accent-hover);
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTS
+────────────────────────────────────────────── */
+
+/* Navbar */
+.navbar {
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Hero section */
+.hero {
+  background: radial-gradient(circle at center, rgba(30, 144, 255, 0.1) 0%, transparent 70%);
+  border-radius: 1rem;
+}
+
+/* CTA buttons */
+.btn-primary {
+  background-color: var(--accent);
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--card);
+  color: var(--foreground);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--card-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* CTA — high contrast, glowing call-to-action */
+.btn-cta {
+  --cta-accent: #1e90ff;
+  --cta-accent-2: #3aa0ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(90deg, var(--cta-accent) 0%, var(--cta-accent-2) 100%);
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    0 6px 18px rgba(30,144,255,0.14),
+    0 0 28px rgba(30,144,255,0.08) inset;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, text-shadow .18s ease;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* creates subtle neon outline on hover/focus */
+.btn-cta:hover,
+.btn-cta:focus {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 12px 36px rgba(30,144,255,0.22),
+    0 0 36px rgba(58,160,255,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  filter: saturate(1.1) brightness(1.15) contrast(1.05);
+  outline: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 12px rgba(30,144,255,0.3);
+  color: #ffffff;
+}
+
+/* accessible visible focus ring */
+.btn-cta:focus-visible {
+  box-shadow:
+    0 12px 36px rgba(30,144,255,0.22),
+    0 0 6px rgba(30,144,255,0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* small label inside CTA for subtle microcopy styling */
+.cta-label {
+  display: inline-block;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
+
+/* optional secondary variant for outline look (use class .btn-cta-outline) */
+.btn-cta-outline {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: var(--color-accent);
+  border: 1px solid rgba(30,144,255,0.14);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 18px rgba(30,144,255,0.05) inset;
+}
+
+/* Card (Expertise / Advantage / Case Studies) */
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Section headers */
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+footer a:hover {
+  color: var(--accent);
+}
+
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-slide {
+  display: flex;
+  width: max-content;
+  animation: slide 20s linear infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+
+.skiptranslate {
+    display: none !important;
+}
+
+#google_translate_element {
+  display: none;
 }

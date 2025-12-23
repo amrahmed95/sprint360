@@ -1,0 +1,90 @@
+# .aiignore - Files and directories to ignore during AI analysis
+
+# This helps AI tools focus on source code and avoid noise from generated files
+
+# Dependencies
+
+node_modules/
+.pnpm-store/
+.yarn/
+
+# Build outputs
+
+.next/
+out/
+dist/
+build/
+
+# Version control
+
+.git/
+.gitignore
+
+# Environment and secrets
+
+.env\*
+!.env.example
+.env.local
+.env.prod
+
+# Logs
+
+\*.log
+logs/
+nginx/logs/
+
+# Docker
+
+.dockerignore
+
+# IDE and editor files
+
+.vscode/
+.idea/
+_.swp
+_.swo
+\*~
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Temporary files
+
+tmp/
+temp/
+
+# Certificates (sensitive)
+
+certs/
+
+# Cache
+
+.cache/
+.parcel-cache/
+
+# Coverage reports
+
+coverage/
+
+# Lock files (can be large)
+
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Documentation for AI (keep LLM.txt)
+
+# README.md can be included if needed
+
+# Test files (if not relevant)
+
+# tests/
+
+# **tests**/
+
+# Static assets (large or irrelevant)
+
+public/videos/
+public/animations/

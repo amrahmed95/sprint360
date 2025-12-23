@@ -1,36 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sprint360
 
-## Getting Started
+Sprint360 is a modern web application built with Next.js, designed for a software development company specializing in full-stack development, data intelligence, and AI solutions. It features a responsive landing page with sections for services, portfolio, about, contact, and blog. The app includes form handling, email notifications, reCAPTCHA integration, and Docker-based deployment. The project focuses on scalable, modular components and server-first rendering, following clean architecture and separation of concerns.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Frontend**: Next.js 16+ (App Router), React 19, TypeScript
+- **Styling**: Tailwind CSS 4, PostCSS
+- **Backend**: Next.js API Routes
+- **Database/Integrations**: Airtable (for calculators and forms)
+- **Email**: Resend API
+- **Security**: reCAPTCHA v3
+- **Deployment**: Docker, nginx (reverse proxy with SSL)
+- **Development**: ESLint, Docker Compose
+- **Animations**: Framer Motion, Lottie
+- **Other**: Client-side cookies, Nookies
+
+## Project Structure
+
+```
+/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx           # Home page
+│   ├── layout.tsx         # Root layout
+│   ├── globals.css        # Global styles
+│   ├── about/             # About section
+│   │   ├── page.jsx       # About page
+│   │   ├── AboutHero.jsx  # Hero component
+│   │   └── ...            # Other components
+│   ├── contact/           # Contact page with forms
+│   │   ├── page.jsx       # Contact page
+│   │   ├── thank-you/     # Thank you page
+│   │   └── components/    # Contact components
+│   ├── services/          # Services pages
+│   │   ├── page.jsx       # Services overview
+│   │   ├── [slug]/        # Dynamic service pages
+│   │   ├── data/          # Service data
+│   │   └── components/    # Service components
+│   ├── portfolio/         # Portfolio page
+│   ├── blog/              # Blog page
+│   ├── InternalEstimate/  # Internal cost estimator
+│   ├── project-cost-calculator/  # Public cost calculator
+│   └── api/               # API routes
+├── components/            # Reusable React components
+│   ├── ui/               # UI components (Button, Footer, etc.)
+│   └── layout/           # Layout components
+├── lib/                   # Utility functions and integrations
+│   ├── airtable.ts       # Airtable integration
+│   ├── resend.ts         # Email sending
+│   ├── recaptcha.ts      # reCAPTCHA verification
+│   └── validate.ts       # Form validation
+├── public/                # Static assets
+│   ├── animations/       # Lottie animations
+│   ├── logos/            # Logo images
+│   └── sitemap.xml       # Sitemap
+├── types/                 # TypeScript type definitions
+├── templates/             # Email templates
+├── docker-compose.yml     # Production Docker setup
+├── docker-compose.dev.yml # Development Docker setup
+├── nginx.conf             # Production nginx config
+├── nginx.dev.conf         # Development nginx config
+└── Dockerfile             # App containerization
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key Pages and Components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Home Page ([`app/page.tsx`](app/page.tsx "app/page.tsx"))
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Main landing page with hero section, features, services overview, partners, and CTA.
 
-## Learn More
+- Components: HeroSection, FeaturesSection, ServicesSection, PartnersSection, CTASection
 
-To learn more about Next.js, take a look at the following resources:
+### About Page ([`app/about/page.jsx`](app/about/page.jsx "app/about/page.jsx"))
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Company information including hero, journey, team, values, vision/mission.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Components: AboutHero, AboutJourney, AboutTeam, AboutValues, AboutVisionMission
 
-## Deploy on Vercel
+### Contact Page ([`app/contact/page.jsx`](app/contact/page.jsx "app/contact/page.jsx"))
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contact form with Calendly integration, consent checkbox, and alternative contact methods.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Components: ContactForm, ContactHero, CalendlyBlock, ConsentCheckbox
+- API: `/api/contact` (POST) - Handles form submissions
+
+### Services Pages ([`app/services`](app/services "app/services"))
+
+Dynamic routing for different services.
+
+- Layout: services/layout.tsx
+- Components: ServicesGrid, ServiceCard, CalendlyModal
+- Data: [`app/services/data/services.tsx`](app/services/data/services.tsx "app/services/data/services.tsx") (service definitions)
+
+### Portfolio ([`app/portfolio/page-temp.jsx`](app/portfolio/page-temp.jsx "app/portfolio/page-temp.jsx"))
+
+Portfolio showcase (temporary implementation).
+
+### Blog ([`app/blog/page.tsx`](app/blog/page.tsx "app/blog/page.tsx"))
+
+Blog listing page.
+
+### Internal Estimate ([`app/InternalEstimate/page-temp.tsx`](app/InternalEstimate/page-temp.tsx "app/InternalEstimate/page-temp.tsx"))
+
+Cost estimation tool using Airtable integration.
+
+### Project Cost Calculator ([`app/project-cost-calculator`](app/project-cost-calculator "app/project-cost-calculator"))
+
+Advanced calculator with lead form.
+
+- API: `/api/lead` (likely for form handling)
+
+## API Endpoints
+
+- `/api/health` (GET) - Health check
+- `/api/contact` (POST) - Contact form submission
+- `/api/lead` (POST) - Lead form submission (project calculator)
+
+## Key Integrations
+
+- **Airtable**: Used for data storage (calculators, forms) - [`lib/airtable-calculator.ts`](lib/airtable-calculator.ts "lib/airtable-calculator.ts")
+- **Resend**: Email notifications for form submissions
+- **reCAPTCHA**: Spam protection on forms
+- **Calendly**: Scheduling integration
+
+## Configuration Files
+
+- [`package.json`](package.json "package.json") - Dependencies and scripts
+- [`tsconfig.json`](tsconfig.json "tsconfig.json") - TypeScript configuration
+- [`next.config.ts`](next.config.ts "next.config.ts") - Next.js configuration
+- tailwind.config.js - Tailwind CSS setup
+- [`eslint.config.mjs`](eslint.config.mjs "eslint.config.mjs") - ESLint configuration
+- [`postcss.config.mjs`](postcss.config.mjs "postcss.config.mjs") - PostCSS configuration
+
+## Quick Start
+
+1. `pnpm install` - Install dependencies
+2. `docker-compose -f [`docker-compose.dev.yml`](docker-compose.dev.yml ) up` - Start development environment
+3. Access at http://localhost or http://sprint360 (after adding to hosts)
+
+## Deployment
+
+- Build production image: `docker-compose build`
+- Deploy: [`docker-compose up -d`](node_modules/@types/react/index.d.ts)
+- Ensure SSL certificates are in [`certs`](certs) for HTTPS
+
+## Development Notes
+
+- Content is primarily in JSX/TSX components, not separate markdown files
+- For SEO and content analysis, examine the page components and their rendered output
+- Use the internal cost estimator for company-centric pricing
+- Public calculator requires lead form submission for access
+
+## License
+
+This project is private and proprietary. All rights reserved.

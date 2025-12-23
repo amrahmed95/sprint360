@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Disallow access to API routes and internal tools
+Disallow: /api/
+Disallow: /InternalEstimate
+Disallow: /project-cost-calculator
+
+# Allow crawling of main content
+Allow: /about
+Allow: /contact
+Allow: /services
+Allow: /portfolio
+Allow: /blog
+
+# Sitemap
+Sitemap: https://sprint360.com/sitemap.xml

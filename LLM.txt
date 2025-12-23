@@ -1,0 +1,126 @@
+# LLM.txt - Sprint360 Project Overview
+
+## Project Overview
+Sprint360 is a modern web application built with Next.js, designed for a software development company. It features a responsive landing page with sections for services, portfolio, about, contact, and blog. The app includes form handling, email notifications, reCAPTCHA integration, and Docker-based deployment.The project focuses on scalable, modular components and server-first rendering.
+The codebase follows clean architecture and separation of concerns.
+
+## Tech Stack
+- **Frontend**: Next.js 16+ (App Router), React, TypeScript
+- **Styling**: Tailwind CSS, PostCSS
+- **Backend**: Next.js API Routes
+- **Database/Integrations**: Airtable (for calculators and forms)
+- **Email**: Resend API
+- **Security**: reCAPTCHA v3
+- **Deployment**: Docker, nginx (reverse proxy with SSL)
+- **Development**: ESLint, Docker Compose
+
+## Project Structure
+```
+/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx           # Home page
+│   ├── about/             # About section
+│   ├── contact/           # Contact page with forms
+│   ├── services/          # Services pages
+│   ├── portfolio/         # Portfolio page
+│   ├── blog/              # Blog page
+│   └── api/               # API routes
+├── components/            # Reusable React components
+│   ├── ui/               # UI components (Button, Footer, etc.)
+│   └── layout/           # Layout components
+├── lib/                   # Utility functions and integrations
+│   ├── airtable.ts       # Airtable integration
+│   ├── resend.ts         # Email sending
+│   ├── recaptcha.ts      # reCAPTCHA verification
+│   └── validate.ts       # Form validation
+├── public/                # Static assets
+├── types/                 # TypeScript type definitions
+├── docker-compose.yml     # Production Docker setup
+├── docker-compose.dev.yml # Development Docker setup
+├── nginx.conf             # Production nginx config
+├── nginx.dev.conf         # Development nginx config
+└── Dockerfile             # App containerization
+```
+
+## Key Pages and Components
+
+### Home Page (app/page.tsx)
+Main landing page with hero section, features, services overview, partners, and CTA.
+- Components: HeroSection, FeaturesSection, ServicesSection, PartnersSection, CTASection
+
+### About Page (app/about/page.jsx)
+Company information including hero, journey, team, values, vision/mission.
+- Components: AboutHero, AboutJourney, AboutTeam, AboutValues, AboutVisionMission
+
+### Contact Page (app/contact/page.jsx)
+Contact form with Calendly integration, consent checkbox, and alternative contact methods.
+- Components: ContactForm, ContactHero, CalendlyBlock, ConsentCheckbox
+- API: /api/contact (POST) - Handles form submissions
+
+### Services Pages (app/services/)
+Dynamic routing for different services.
+- Layout: services/layout.tsx
+- Components: ServicesGrid, ServiceCard, CalendlyModal
+- Data: services.tsx (service definitions)
+
+### Portfolio (app/portfolio/page-temp.jsx)
+Portfolio showcase (temporary implementation).
+
+### Blog (app/blog/page.tsx)
+Blog listing page.
+
+### Internal Estimate (app/InternalEstimate/page.tsx)
+Cost estimation tool using Airtable integration.
+
+### Project Cost Calculator (app/project-cost-calculator/)
+Advanced calculator with lead form.
+- API: /api/lead (likely for form handling)
+
+## API Endpoints
+- `/api/health` (GET) - Health check
+- `/api/contact` (POST) - Contact form submission
+- `/api/lead` (POST) - Lead form submission (project calculator)
+
+## Key Integrations
+- **Airtable**: Used for data storage (calculators, forms)
+- **Resend**: Email notifications for form submissions
+- **reCAPTCHA**: Spam protection on forms
+- **Calendly**: Scheduling integration
+
+## Configuration Files
+- `package.json` - Dependencies and scripts
+- `tsconfig.json` - TypeScript configuration
+- `next.config.ts` - Next.js configuration
+- `tailwind.config.js` - Tailwind CSS setup
+- `postcss.config.mjs` - PostCSS configuration
+- `eslint.config.mjs` - ESLint rules
+
+## Docker Setup
+- **Development**: `docker-compose.dev.yml` - Runs app on port 3000, nginx on 80/443
+- **Production**: `docker-compose.yml` - Production build with nginx proxy
+- **nginx**: Handles SSL termination, static file serving, and proxying to Next.js
+
+## Content Prioritization for AI Analysis
+1. **User-Facing Content**: Focus on page components (app/*/page.*) for understanding site structure
+2. **Business Logic**: API routes (app/api/*) for backend functionality
+3. **Integrations**: lib/ files for external service connections
+4. **Configuration**: Docker and nginx files for deployment understanding
+5. **Types**: types/ for data structures
+
+## Important Notes for AI
+- This is a Next.js 14+ app using the App Router
+- Forms use server actions and API routes
+- SSL is handled by nginx, not Next.js
+- Development uses Docker for full-stack setup
+- Content is primarily in JSX/TSX components, not separate markdown files
+- For SEO and content analysis, examine the page components and their rendered output
+
+## Quick Start
+1. `pnpm install` - Install dependencies
+2. `docker-compose -f docker-compose.dev.yml up` - Start development environment
+3. Access at http://localhost or http://sprint360 (after adding to hosts)
+
+## Deployment
+- Build production image: `docker-compose build`
+- Deploy: `docker-compose up -d`
+- Ensure SSL certificates are in `./certs/` for HTTPS
