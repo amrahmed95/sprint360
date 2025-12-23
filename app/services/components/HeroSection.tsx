@@ -28,17 +28,16 @@ export default function HeroSection({ onContact }: Props): JSX.Element {
               <p className="text-xl text-gray-400 dark:text-gray-300 leading-relaxed">
                 We bridge the gap between business vision and measurable reality
                 through integrated
-                <br />
                 <span className="relative inline-block mx-2">
                   <span className="font-semibold text-gray-300 dark:text-gray-100 px-3 py-1 bg-gradient-to-r from-blue-100/50 to-purple-100/50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg border border-blue-200/30 dark:border-blue-800/30">
                     software, data, and AI sprints
                   </span>
-                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></span>
+                  {/* <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></span> */}
                 </span>
               </p>
 
               {/* Decorative accent line */}
-              <div className="mt-6 w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+              <div className="mt-6 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
             </div>
           </div>
 
@@ -46,7 +45,7 @@ export default function HeroSection({ onContact }: Props): JSX.Element {
           <div className="flex gap-4 flex-wrap">
             <Link href="/contact">
               <Button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all shadow-blue-500/25">
-                <span className="text-lg flex items-center gap-2">
+                <span className="text-lg text-white text-wh flex items-center gap-2">
                   Start Your First Sprint
                   <svg
                     className="w-5 h-5"
@@ -202,34 +201,34 @@ export default function HeroSection({ onContact }: Props): JSX.Element {
                 poster="/images/hero-poster.jpg"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-purple-600/10 pointer-events-none" />
+            </div>
 
-              {/* Overlay Content */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="font-bold text-gray-900 dark:text-gray-100">
-                    Sprint-Based Success
-                  </h3>
+            {/* Overlay Content - Now positioned below the video */}
+            <div className="mt-4 bg-white/60 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
                 </div>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Each sprint delivers measurable outcomes — no vague promises,
-                  just tangible progress.
-                </p>
+                <h3 className="font-bold text-gray-900 dark:text-white">
+                  Sprint-Based Success
+                </h3>
               </div>
+              <p className="text-sm text-gray-900 dark:text-gray-300">
+                Each sprint delivers measurable outcomes — no vague promises,
+                just tangible progress.
+              </p>
             </div>
           </div>
 
