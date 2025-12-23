@@ -1,4 +1,4 @@
-globalThis.__GOOGLE_TRANSLATION_CONFIG__ = {
+window.__GOOGLE_TRANSLATION_CONFIG__ = {
     languages: [
         { title: 'English', name: 'en', flag: '🇺🇸' },
         { title: 'Deutsch', name: 'de', flag: '🇩🇪' },
