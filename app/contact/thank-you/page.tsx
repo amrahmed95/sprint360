@@ -1,8 +1,14 @@
 "use client";
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic"; // Add this import
 
-export default function ThankYou() {
+// Dynamically import your component with SSR disabled
+const ThankYouContent = dynamic(() => Promise.resolve(ThankYou), {
+  ssr: false,
+});
+
+function ThankYou() {
   const sp = useSearchParams();
   const name = sp.get("name") || "";
 
@@ -62,12 +68,6 @@ export default function ThankYou() {
                 >
                   Book a Call
                 </a>
-                {/* <a
-                  href="/case-studies"
-                  className="px-4 py-2 rounded border border-[rgba(255,255,255,0.06)] text-neutral-200"
-                >
-                  View case studies
-                </a> */}
                 <a
                   href="/"
                   className="px-4 py-2 rounded text-neutral-300 hover:text-white"
@@ -89,3 +89,6 @@ export default function ThankYou() {
     </main>
   );
 }
+
+// Export the dynamically wrapped component
+export default ThankYouContent;
