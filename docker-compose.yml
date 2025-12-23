@@ -2,8 +2,6 @@ services:
   app:
     build:
       context: .
-      args:
-        NODE_ENV: production
     env_file:
       - .env.prod
     environment:
