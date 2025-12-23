@@ -2,16 +2,16 @@
 import { useEffect, useState } from "react";
 import { parseCookies, setCookie } from "nookies";
 
-// The following cookie name is important because it's Google-predefined for the translation engine purpose
+// Google-predefined cookie for translation engine
 const COOKIE_NAME = "googtrans";
 
-// We should know a predefined nickname of a language and provide its title (the name for displaying)
+// Language descriptor type
 interface LanguageDescriptor {
   name: string;
   title: string;
 }
 
-// Types for JS-based declarations in public/assets/scripts/lang-config.js
+// Global type for translation config
 declare global {
   namespace globalThis {
     var __GOOGLE_TRANSLATION_CONFIG__: {
@@ -23,80 +23,57 @@ declare global {
 
 const LanguageSwitcher = () => {
   const [currentLanguage, setCurrentLanguage] = useState<string>();
-  const [languageConfig, setLanguageConfig] = useState<any>();
+  const [languageConfig, setLanguageConfig] = useState<{
+    languages: LanguageDescriptor[];
+    defaultLanguage: string;
+  }>();
 
   // Initialize translation engine
   useEffect(() => {
-    // 1. Read the cookie
     const cookies = parseCookies();
-    const existingLanguageCookieValue = cookies[COOKIE_NAME];
+    const existingCookie = cookies[COOKIE_NAME];
 
-    let languageValue;
-    if (existingLanguageCookieValue) {
-      // 2. If the cookie is defined, extract a language nickname from there.
-      const sp = existingLanguageCookieValue.split("/");
+    let languageValue: string | undefined;
+
+    if (existingCookie) {
+      const sp = existingCookie.split("/");
       if (sp.length > 2) {
         languageValue = sp[2];
       }
     }
-    // 3. If __GOOGLE_TRANSLATION_CONFIG__ is defined and we still not decided about languageValue - use default one
+
     if (globalThis.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
       languageValue = globalThis.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage;
     }
-    if (languageValue) {
-      // 4. Set the current language if we have a related decision.
-      setCurrentLanguage(languageValue);
-    }
 
-    // 5. Set the language config.
+    if (languageValue) setCurrentLanguage(languageValue);
+
     if (globalThis.__GOOGLE_TRANSLATION_CONFIG__) {
       setLanguageConfig(globalThis.__GOOGLE_TRANSLATION_CONFIG__);
-    } else {
-      // Fallback config
-      setLanguageConfig({
-        languages: [{ title: "English", name: "en" }],
-        defaultLanguage: "en",
-      });
     }
   }, []);
 
-  // Don't display anything if current language information is unavailable.
-  if (!currentLanguage || !languageConfig) {
-    return (
-      <select className="notranslate bg-transparent text-[--color-foreground] border border-[--color-muted] rounded px-2 py-1 text-sm">
-        <option value="en">English</option>
-      </select>
-    );
-  }
+  if (!currentLanguage || !languageConfig) return null;
 
-  // The following function switches the current language
   const switchLanguage = (lang: string) => () => {
-    // We just need to set the related cookie and reload the page
-    // "/auto/" prefix is Google's definition as far as a cookie name
     setCookie(null, COOKIE_NAME, "/auto/" + lang);
     window.location.reload();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    switchLanguage(e.target.value)();
-  };
-
   return (
-    <select
-      value={currentLanguage}
-      onChange={handleChange}
-      className="notranslate bg-transparent text-[--color-foreground] border border-[--color-muted] rounded px-2 py-1 text-sm"
-    >
-      {languageConfig.languages.map((ld: LanguageDescriptor) => (
-        <option
-          key={ld.name}
-          value={ld.name}
-          className="bg-[--color-card] text-[--color-foreground]"
-        >
-          {ld.title}
-        </option>
-      ))}
-    </select>
+    <div className="notranslate">
+      <select
+        value={currentLanguage}
+        onChange={(e) => switchLanguage(e.target.value)()}
+        className="px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:border-gray-400"
+      >
+        {languageConfig.languages.map((ld) => (
+          <option key={ld.name} value={ld.name}>
+            {ld.title}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 };
 
