@@ -10,12 +10,42 @@ services:
       - "3000"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => { console.log(r.statusCode); process.exit(r.statusCode >= 200 && r.statusCode < 500 ? 0 : 1) })"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
 
+  # TEMPORARY HTTP-ONLY NGINX (for Certbot)
+  nginx-temp:
+    image: nginx:alpine
+    ports:
+      - "80:80"  # ONLY port 80 for Certbot validation
+    volumes:
+      - webroot:/usr/share/nginx/html  # Certbot needs this for webroot validation
+      - ./nginx-temp.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+    # No SSL dependencies yet
+
+  # CERTBOT - gets certificates FIRST
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - webroot:/var/www/html
+    depends_on:
+      - nginx-temp
+    command: certonly --webroot --webroot-path=/var/www/html --email sprint360hq@gmail.com --agree-tos --no-eff-email --non-interactive --keep-until-expiring -d sprint360.co -d www.sprint360.co
+
+
+  # PRODUCTION NGINX (with SSL) - runs AFTER certbot
   nginx:
     image: nginx:alpine
     ports:
@@ -23,10 +53,20 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certs:/etc/ssl/certs:ro
+      - certbot-etc:/etc/letsencrypt:ro  # Use the volume from certbot
+      - webroot:/var/www/html
     depends_on:
-      app:
-        condition: service_healthy
+      - app
+      - certbot
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     environment:
       - NGINX_WORKER_PROCESSES=auto
+
+volumes:
+  webroot:
+  certbot-etc:
+  certbot-var:
