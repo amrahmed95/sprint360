@@ -37,7 +37,7 @@ export default function CTASection({ onGetStarted }: Props) {
 
           {/* Secondary CTA */}
           <a
-            href="mailto:sprint360@gmail.com"
+            href="mailto:sprint360hq@gmail.com"
             className="flex items-center gap-2 px-8 py-4 text-base font-semibold text-foreground border border-card-border rounded-lg hover:border-accent hover:bg-accent/5 transition-all duration-200"
           >
             <span>Send Project Brief</span>

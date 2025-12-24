@@ -4,13 +4,13 @@ import { redirect } from "next/navigation";
 
 export default async function StartPage() {
   // Read cookies synchronously (server-side)
-  const cookieStore = await cookies();
-  const calcAccess = cookieStore.get("calc_access")?.value;
+  // const cookieStore = await cookies();
+  // const calcAccess = cookieStore.get("calc_access")?.value;
 
-  // Redirect immediately if user already has access
-  if (calcAccess === "yes") {
-    redirect("/project-cost-calculator/app");
-  }
+  // // Redirect immediately if user already has access
+  // if (calcAccess === "yes") {
+  //   redirect("/project-cost-calculator/app");
+  // }
 
   return (
     <div className="max-w-2xl mx-auto py-16">

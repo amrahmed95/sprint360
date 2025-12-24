@@ -134,7 +134,7 @@ export default function CostEstimateSection() {
       {/* CTA */}
       <div className="mt-8 pt-8 border-t border-card-border flex items-center justify-center">
         <Link
-          href="/project-cost-calculator/app"
+          href="/project-cost-calculator/start"
           className="btn-cta flex items-center gap-2 px-8 py-4 text-base font-semibold text-white"
         >
           <span>Try our interactive cost estimator</span>

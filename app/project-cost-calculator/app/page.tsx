@@ -6,9 +6,10 @@ import useCostEstimator, {
   Complexity,
   ServiceKey,
 } from "../hooks/useCostEstimator";
+import { useCalculatorAccess } from "../hooks/useCalculatorAccess";
 import Link from "next/link";
 
-export default function costestimator() {
+export default function CostEstimator() {
   // --- FORM STATE ---
   const [selectedServices, setSelectedServices] = useState<
     Record<ServiceKey, boolean>
@@ -37,6 +38,8 @@ export default function costestimator() {
     "clear" | "partial" | "vague"
   >("clear");
 
+  const { hasAccess, isLoading } = useCalculatorAccess();
+
   // --- CALCULATE USING YOUR EXACT LOGIC ---
   const calculation = useCostEstimator({
     selectedServices,
@@ -44,6 +47,23 @@ export default function costestimator() {
     region,
     requirementsClarity,
   });
+
+  // Show loading or redirect
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto"></div>
+          <p className="mt-4 text-muted">Loading calculator...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!hasAccess) {
+    // Optionally redirect automatically (handled in the hook)
+    return null;
+  }
 
   const toggleService = (key: ServiceKey) => {
     setSelectedServices((p) => ({ ...p, [key]: !p[key] }));
@@ -68,7 +88,10 @@ export default function costestimator() {
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">
             Project Cost Estimator
           </h1>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          <p
+            className="text-lg text-muted max-w-2xl mx-auto"
+            style={{ contentVisibility: "auto" }}
+          >
             Get an instant, tailored cost range for your software, AI, or data
             engineering project. Adjust the parameters below to see how
             different factors impact your budget.

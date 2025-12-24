@@ -42,6 +42,15 @@ export default function LeadForm() {
         return;
       }
 
+      // set an access token in local storage or sessionStorage
+      const accessToken = `calc_access_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`;
+      sessionStorage.setItem("calc_access_token", accessToken);
+      document.cookie = `calc_access=${accessToken}; path=/; max-age=${
+        60 * 60
+      }`; // 1 hour
+
       // Redirect immediately after successful submission
       router.push("/project-cost-calculator/app");
     } catch (err: any) {
