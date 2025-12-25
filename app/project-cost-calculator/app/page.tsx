@@ -8,6 +8,7 @@ import useCostEstimator, {
 } from "../hooks/useCostEstimator";
 import { useCalculatorAccess } from "../hooks/useCalculatorAccess";
 import Link from "next/link";
+import { Router, useRouter } from "next/router";
 
 export default function CostEstimator() {
   // --- FORM STATE ---
@@ -61,7 +62,7 @@ export default function CostEstimator() {
   }
 
   if (!hasAccess) {
-    // Optionally redirect automatically (handled in the hook)
+    // Redirect to lead form
     return null;
   }
 

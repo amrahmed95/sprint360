@@ -47,9 +47,7 @@ export default function LeadForm() {
         .toString(36)
         .substr(2, 9)}`;
       sessionStorage.setItem("calc_access_token", accessToken);
-      document.cookie = `calc_access=${accessToken}; path=/; max-age=${
-        60 * 60
-      }`; // 1 hour
+      document.cookie = `calc_access=${accessToken}; path=/; max-age=3600`; // 1 hour expiration
 
       // Redirect immediately after successful submission
       router.push("/project-cost-calculator/app");
