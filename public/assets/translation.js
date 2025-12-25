@@ -4,6 +4,7 @@
  * window.__GOOGLE_TRANSLATION_CONFIG__. If the config object is not
  * present, this function will do nothing.
  */
+
 function TranslateInit() {
     if (!window.__GOOGLE_TRANSLATION_CONFIG__) {
         return;
@@ -12,3 +13,5 @@ function TranslateInit() {
         pageLanguage: window.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage,
     });
 }
+
+window.addEventListener("load", TranslateInit);

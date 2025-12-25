@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { parseCookies, setCookie } from "nookies";
+import Script from "next/script";
 
 // Google-predefined cookie for translation engine
 const COOKIE_NAME = "googtrans";
@@ -61,19 +62,23 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <div className="notranslate">
-      <select
-        value={currentLanguage}
-        onChange={(e) => switchLanguage(e.target.value)()}
-        className="px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:border-gray-400"
-      >
-        {languageConfig.languages.map((ld) => (
-          <option key={ld.name} value={ld.name}>
-            {ld.title}
-          </option>
-        ))}
-      </select>
-    </div>
+    <>
+      <link rel="preload" href="/assets/translation.js" as="script" />
+      <script src="/assets/translation.js"></script>
+      <div className="notranslate">
+        <select
+          value={currentLanguage}
+          onChange={(e) => switchLanguage(e.target.value)()}
+          className="px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:border-gray-400"
+        >
+          {languageConfig.languages.map((ld) => (
+            <option key={ld.name} value={ld.name}>
+              {ld.title}
+            </option>
+          ))}
+        </select>
+      </div>
+    </>
   );
 };
 
