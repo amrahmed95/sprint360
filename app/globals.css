@@ -6,7 +6,6 @@
 :root {
   --background: #0b1220;
   --foreground: #d8e2f1;
-
   --accent: #1e90ff;
   --accent-hover: #3aa0ff;
   --muted: #8b9bb5;
@@ -25,6 +24,12 @@
 
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-heading: 'Poppins', var(--font-sans);
+
+  /* Optional: Define custom screens */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,7 +41,7 @@
 }
 
 /* ─────────────────────────────────────────────
-   BASE ELEMENTS
+   BASE ELEMENTS with Responsive Adjustments
 ────────────────────────────────────────────── */
 body {
   background-color: var(--background);
@@ -44,13 +49,59 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14px; /* Base mobile font size */
+
+  /* Responsive font sizing */
+  @media (width >= 768px) {
+    font-size: 16px;
+  }
 }
 
-/* Headings */
-h1, h2, h3, h4 {
+/* Headings - Responsive sizes */
+h1 {
   font-family: var(--font-heading);
   color: var(--foreground);
   font-weight: 700;
+  font-size: 1.875rem; /* text-3xl for mobile */
+  line-height: 1.2;
+
+  @media (width >= 640px) {
+    font-size: 2.25rem; /* text-4xl for sm */
+  }
+
+  @media (width >= 768px) {
+    font-size: 3rem; /* text-5xl for md */
+  }
+
+  @media (width >= 1024px) {
+    font-size: 3.75rem; /* text-6xl for lg */
+  }
+}
+
+h2 {
+  font-family: var(--font-heading);
+  color: var(--foreground);
+  font-weight: 700;
+  font-size: 1.5rem; /* text-2xl for mobile */
+
+  @media (width >= 768px) {
+    font-size: 1.875rem; /* text-3xl for md */
+  }
+
+  @media (width >= 1024px) {
+    font-size: 2.25rem; /* text-4xl for lg */
+  }
+}
+
+h3 {
+  font-family: var(--font-heading);
+  color: var(--foreground);
+  font-weight: 700;
+  font-size: 1.25rem; /* text-xl for mobile */
+
+  @media (width >= 768px) {
+    font-size: 1.5rem; /* text-2xl for md */
+  }
 }
 
 /* Links & buttons */
@@ -66,7 +117,7 @@ button:hover {
 }
 
 /* ─────────────────────────────────────────────
-   COMPONENTS
+   COMPONENTS with Responsive Adjustments
 ────────────────────────────────────────────── */
 
 /* Navbar */
@@ -74,12 +125,26 @@ button:hover {
   background-color: transparent;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem; /* p-4 for mobile */
+
+  @media (width >= 768px) {
+    padding: 1.5rem; /* p-6 for tablet */
+  }
 }
 
 /* Hero section */
 .hero {
   background: radial-gradient(circle at center, rgba(30, 144, 255, 0.1) 0%, transparent 70%);
   border-radius: 1rem;
+  padding: 2rem 1rem; /* py-8 px-4 for mobile */
+
+  @media (width >= 768px) {
+    padding: 4rem 2rem; /* py-16 px-8 for tablet */
+  }
+
+  @media (width >= 1024px) {
+    padding: 6rem 3rem; /* py-24 px-12 for desktop */
+  }
 }
 
 /* CTA buttons */
@@ -89,6 +154,12 @@ button:hover {
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   font-weight: 600;
+  font-size: 0.875rem; /* text-sm for mobile */
+
+  @media (width >= 768px) {
+    padding: 1rem 2rem;
+    font-size: 1rem; /* text-base for tablet */
+  }
 }
 
 .btn-primary:hover {
@@ -101,6 +172,12 @@ button:hover {
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   border: 1px solid var(--card-border);
+  font-size: 0.875rem; /* text-sm for mobile */
+
+  @media (width >= 768px) {
+    padding: 1rem 2rem;
+    font-size: 1rem; /* text-base for tablet */
+  }
 }
 
 .btn-secondary:hover {
@@ -119,7 +196,7 @@ button:hover {
   background: linear-gradient(90deg, var(--cta-accent) 0%, var(--cta-accent-2) 100%);
   color: #ffffff;
   font-weight: 700;
-  padding: 0.65rem 1.1rem;
+  padding: 0.75rem 1.25rem; /* Smaller on mobile */
   border-radius: 0.75rem;
   border: 1px solid rgba(255,255,255,0.06);
   box-shadow:
@@ -129,6 +206,17 @@ button:hover {
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  font-size: 0.875rem; /* text-sm for mobile */
+
+  @media (width >= 640px) {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem; /* text-base for sm+ */
+  }
+
+  @media (width >= 768px) {
+    padding: 1rem 2rem;
+    font-size: 1.125rem; /* text-lg for md+ */
+  }
 }
 
 /* creates subtle neon outline on hover/focus */
@@ -153,33 +241,20 @@ button:hover {
   border: 1px solid rgba(255,255,255,0.12);
 }
 
-/* small label inside CTA for subtle microcopy styling */
-.cta-label {
-  display: inline-block;
-  line-height: 1;
-  padding: 0;
-  margin: 0;
-  font-weight: 800;
-  letter-spacing: 0.2px;
-  color: #fff;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
-}
-
-/* optional secondary variant for outline look (use class .btn-cta-outline) */
-.btn-cta-outline {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color: var(--color-accent);
-  border: 1px solid rgba(30,144,255,0.14);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 18px rgba(30,144,255,0.05) inset;
-}
-
 /* Card (Expertise / Advantage / Case Studies) */
 .card {
   background-color: var(--card);
   border: 1px solid var(--card-border);
   border-radius: 0.75rem;
-  padding: 1.5rem;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  padding: 1rem; /* p-4 for mobile */
+
+  @media (width >= 768px) {
+    padding: 1.5rem; /* p-6 for tablet */
+  }
+
+  @media (width >= 1024px) {
+    padding: 2rem; /* p-8 for desktop */
+  }
 }
 
 .card:hover {
@@ -190,25 +265,140 @@ button:hover {
 /* Section headers */
 .section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem; /* mb-6 for mobile */
   font-family: var(--font-heading);
-  font-size: 1.875rem;
+  font-size: 1.5rem; /* text-2xl for mobile */
   font-weight: 700;
+
+  @media (width >= 768px) {
+    margin-bottom: 2.5rem; /* mb-10 for tablet */
+    font-size: 1.875rem; /* text-3xl for tablet */
+  }
+
+  @media (width >= 1024px) {
+    font-size: 2.25rem; /* text-4xl for desktop */
+    margin-bottom: 3rem; /* mb-12 for desktop */
+  }
+}
+
+/* Container for content */
+.container {
+  width: 100%;
+  padding-left: 1rem; /* px-4 for mobile */
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (width >= 640px) {
+    max-width: 640px; /* sm:max-w-screen-sm */
+  }
+
+  @media (width >= 768px) {
+    max-width: 768px; /* md:max-w-screen-md */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (width >= 1024px) {
+    max-width: 1024px; /* lg:max-w-screen-lg */
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  @media (width >= 1280px) {
+    max-width: 1280px; /* xl:max-w-screen-xl */
+  }
+}
+
+/* Grid layouts */
+.grid-cols-responsive {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* 1 column for mobile */
+  gap: 1rem; /* gap-4 */
+
+  @media (width >= 640px) {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for sm */
+  }
+
+  @media (width >= 1024px) {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for lg */
+    gap: 1.5rem; /* gap-6 */
+  }
+}
+
+/* Flex layouts */
+.flex-responsive {
+  display: flex;
+  flex-direction: column; /* Stack on mobile */
+  gap: 1rem;
+
+  @media (width >= 768px) {
+    flex-direction: row; /* Side-by-side on tablet+ */
+    align-items: center;
+  }
 }
 
 /* Footer */
 footer {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 1.5rem; /* pt-6 for mobile */
+  padding-bottom: 1.5rem; /* pb-6 for mobile */
   color: var(--muted);
-  font-size: 0.875rem;
+  font-size: 0.75rem; /* text-xs for mobile */
+
+  @media (width >= 768px) {
+    padding-top: 2rem; /* pt-8 for tablet */
+    padding-bottom: 2rem; /* pb-8 for tablet */
+    font-size: 0.875rem; /* text-sm for tablet */
+  }
 }
 
 footer a:hover {
   color: var(--accent);
 }
 
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  /* Hide certain elements on mobile */
+  .mobile-hide {
+    display: none;
+  }
+
+  /* Stack all sections vertically */
+  .stack-mobile > * {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Reduce padding on mobile */
+  .section-padding {
+    padding: 2rem 1rem;
+  }
+}
+
+/* Tablet-specific adjustments (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Adjust grid for tablet */
+  .grid-tablet-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Moderate padding for tablet */
+  .section-padding {
+    padding: 3rem 1.5rem;
+  }
+}
+
+/* Desktop adjustments (1024px+) */
+@media (min-width: 1024px) {
+  /* Show elements hidden on mobile */
+  .desktop-show {
+    display: block;
+  }
+
+  .section-padding {
+    padding: 4rem 2rem;
+  }
+}
 
 @keyframes slide {
   0% { transform: translateX(0); }
@@ -229,7 +419,6 @@ footer a:hover {
 .animate-fade-in {
   animation: fade-in 0.2s ease-out forwards;
 }
-
 
 .skiptranslate {
     display: none !important;
