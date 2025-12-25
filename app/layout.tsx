@@ -30,10 +30,26 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script src="/assets/lang-config.js" strategy="beforeInteractive" />
-        <Script src="/assets/translation.js" strategy="beforeInteractive" />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self' https: http: data: blob: 'unsafe-inline' 'unsafe-eval';
+                   img-src 'self' data: blob: https: http: *;
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:;
+                   connect-src 'self' https: http:;
+                   frame-src 'self' https: http:;"
+        />
         <Script
-          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
+          src="/assets/lang-config.js"
+          strategy="beforeInteractive"
+          crossOrigin="anonymous"
+        />
+        <Script
+          src="/assets/translation.js"
+          strategy="beforeInteractive"
+          crossOrigin="anonymous"
+        />
+        <Script
+          src="https://translate.google.com/translate_a/element.js?cb=TranslateInit"
           strategy="afterInteractive"
         />
         {/* reCAPTCHA v3 script — must include render=SITE_KEY */}
